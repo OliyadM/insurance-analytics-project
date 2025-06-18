@@ -14,13 +14,15 @@ ENV/
 
 # DVC
 .dvc/cache/
-*.dvc.lock
 
 # Data
 data/raw/*
+!data/raw/*.dvc
+!data/raw/.gitignore
 !data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
+data/processed_data/*
+!data/processed_data/*.dvc
+!data/processed_data/.gitkeep
 
 # IDEs
 .vscode/

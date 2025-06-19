@@ -1,10 +1,16 @@
 import pandas as pd
 import numpy as np
+import csv
 
 def load_data(file_path):
     """Load and return the insurance dataset."""
-    df = pd.read_csv(file_path)
-    return df
+    try:
+        df = pd.read_csv(file_path, sep='|', encoding='latin1', quotechar='"', quoting=csv.QUOTE_MINIMAL, low_memory=False)
+        print("Dataset loaded successfully. Columns:", df.columns.tolist())
+        return df
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        raise
 
 def clean_data(df):
     """Clean the dataset by handling missing values and formatting."""
@@ -30,6 +36,6 @@ def save_cleaned_data(df, output_path):
     df.to_csv(output_path, index=False)
 
 if __name__ == "__main__":
-    df = load_data('data/raw/insurance_data.csv')
+    df = load_data('data/raw/MachineLearningRating_v3.txt')
     df_clean = clean_data(df)
-    save_cleaned_data(df_clean, 'data/processed/insurance_data_cleaned.csv')
+    save_cleaned_data(df_clean, 'data/processed_data/insurance_data_cleaned.csv')

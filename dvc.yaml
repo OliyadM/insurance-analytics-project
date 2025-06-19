@@ -6,11 +6,3 @@ stages:
       - scripts/data_preprocessing.py
     outs:
       - data/processed_data/insurance_data_cleaned.csv
-  train:
-    cmd: python scripts/model_training.py
-    deps:
-      - data/processed_data/insurance_data_cleaned.csv
-      - scripts/model_training.py
-    outs:
-      - models/rf_model.pkl
-      - models/metrics.txt

@@ -108,5 +108,5 @@ def hypothesis_testing(df, output_path):
     return results
 
 if __name__ == "__main__":
-    df = load_data('data/processed_data/insurance_data_cleaned.csv')
+    df = load_data('data/processed/insurance_data_cleaned.csv')
     results = hypothesis_testing(df, 'reports/hypothesis_test_results.txt')

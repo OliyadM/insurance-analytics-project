@@ -1,0 +1,25 @@
+Hypothesis: No risk differences across provinces (Claim Frequency)
+p-value: 0.0000
+Reject H0: True
+Interpretation: Higher claim frequency in some provinces (e.g., Gauteng) suggests regional risk adjustments.
+
+Hypothesis: No risk differences across provinces (Claim Severity)
+p-value: 0.5817
+Reject H0: False
+Interpretation: Larger claims in Gauteng vs. Western Cape indicate premium adjustments.
+
+Hypothesis: No risk differences between zip codes (Claim Frequency)
+p-value: 0.0000
+Reject H0: True
+Interpretation: Certain zip codes have higher claim likelihood, supporting targeted marketing.
+
+Hypothesis: No margin difference between zip codes
+p-value: 0.3782
+Reject H0: False
+Interpretation: Profitability varies by zip code, suggesting pricing optimization.
+
+Hypothesis: No risk difference between women and men (Claim Frequency)
+p-value: 1.0000
+Reject H0: False
+Interpretation: Gender-based risk differences may inform premium adjustments.
+

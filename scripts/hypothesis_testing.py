@@ -4,8 +4,16 @@ from scipy.stats import chi2_contingency, ttest_ind
 import os
 
 def load_data(file_path):
+    """Load and return the cleaned insurance dataset."""
     try:
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(file_path, low_memory=False)
+        # Clean mixed-type columns to avoid DtypeWarning
+        if 'CapitalOutstanding' in df.columns:
+            # Convert to numeric, compute median on coerced values
+            numeric_col = pd.to_numeric(df['CapitalOutstanding'], errors='coerce')
+            df['CapitalOutstanding'] = numeric_col.fillna(numeric_col.median())
+        if 'CrossBorder' in df.columns:
+            df['CrossBorder'] = df['CrossBorder'].astype(str).str.strip().fillna('Unknown')
         print("Data loaded successfully. Columns:", df.columns.tolist())
         return df
     except Exception as e:
@@ -13,6 +21,7 @@ def load_data(file_path):
         raise
 
 def calculate_metrics(df):
+    """Calculate metrics for hypothesis testing."""
     # Claim Frequency: Proportion of policies with claims > 0
     df['HasClaim'] = df['TotalClaims'] > 0
     # Claim Severity: Average claim amount for claims > 0
@@ -22,14 +31,14 @@ def calculate_metrics(df):
     return df
 
 def chi_square_test(df, group_col, metric_col):
-    # For categorical metrics (e.g., HasClaim)
+    """Perform chi-squared test for categorical metrics."""
     contingency_table = pd.crosstab(df[group_col], df[metric_col])
     chi2, p, _, _ = chi2_contingency(contingency_table)
     return p
 
 def t_test(df, group_col, metric_col, group_values=None):
-    # For numerical metrics (e.g., ClaimSeverity, Margin)
-    if group_values:
+    """Perform t-test for numerical metrics."""
+    if group_values is not None and len(group_values) >= 2:
         group1 = df[df[group_col] == group_values[0]][metric_col].dropna()
         group2 = df[df[group_col] == group_values[1]][metric_col].dropna()
     else:
@@ -42,6 +51,7 @@ def t_test(df, group_col, metric_col, group_values=None):
     return p
 
 def hypothesis_testing(df, output_path):
+    """Perform hypothesis tests and save results."""
     df = calculate_metrics(df)
     results = []
 
